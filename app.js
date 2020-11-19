@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path')
-
+var session = require('express-session')
 var app = express();
 var port = 3000;
 
@@ -21,14 +21,20 @@ app.use(bodyParser.urlencoded({exrended: true}));
 // autoIncrement.initialize(connect);
 
 var admin = require("./routes/admin");
-
+var user = require("./routes/user");
 app.get('/', function(req, res) {
     res.send('first App');
 });
 
 // routes add
 app.use('/admin', admin);
-
+app.use("/user", user );
+app.use(session({
+    reseave: false,
+    saveUninitialized: true,
+}))
 app.listen(port, function() {
     console.log('Express listening on port : ', port);
 })
+
+module.exports = app;
