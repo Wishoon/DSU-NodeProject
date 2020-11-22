@@ -1,9 +1,24 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var path = require('path')
 var session = require('express-session')
+var MySQLStore = require('express-mysql-session')(session);
+
+
+var path = require('path')
 var app = express();
 var port = 3000;
+app.use(session({
+    secret: "1",
+    reseave: false,
+    saveUninitialized: true, 
+    store: new MySQLStore({
+        host: 'localhost',
+        port: 3306,
+        user: 'root',
+        password: '1111',
+        database: 'allergy3'
+      })
+}))
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -22,17 +37,19 @@ app.use(bodyParser.urlencoded({exrended: true}));
 
 var admin = require("./routes/admin");
 var user = require("./routes/user");
+var kiosk = require("./routes/kiosk");
+var company = require("./routes/company");
 app.get('/', function(req, res) {
     res.send('first App');
 });
 
 // routes add
+
 app.use('/admin', admin);
 app.use("/user", user );
-app.use(session({
-    reseave: false,
-    saveUninitialized: true,
-}))
+app.use("/company", company);
+app.use("/kiosk",kiosk);
+
 app.listen(port, function() {
     console.log('Express listening on port : ', port);
 })
