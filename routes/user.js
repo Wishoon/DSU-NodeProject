@@ -1,21 +1,26 @@
 const express = require('express');
-const session = require('express-session');
-const FileStore = require("session-file-store")(session);
-const { connect } = require('mongoose');
-var pool = require('../conf/mysql')
+var pool = require('../conf/mysql');
+const { param } = require('./admin');
 var router = express.Router();
 // var conn = mysql.connection;
 
 
 router.get('/login', function(req, res) {
-    var LoginSQL = "SELECT * FROM USERS WHERE id = ? AND password = ?"
-    
+    res.render('admin/products',
+        {message: req.session.id+"2"}
+    );
+
+})
+
+router.post('/login', function(req, res) {
+    var LoginSQL = "SELECT * FROM USER WHERE id = ? AND password = ?"
+    var sess = req.session
     let body = req.query;
     let id = body.id;
     let pw = body.password;
     let param = [id, pw];
     console.log(body)
-    console.log(id +"s           ssss" + pw)
+    console.log(id +"sssss" + pw)
     pool.getConnection(function(err, conn){
         conn.query(LoginSQL, param, function(err, row, filed){
             
@@ -23,11 +28,12 @@ router.get('/login', function(req, res) {
                 console.log(err);
             }else{
                 if(row){
-                    console.log(row[0].id)
-                    console.log(req.session)
-                    loginId = row[0].id;
-                    loginSeq = row[0].seq;
-                    req.session.seq = loginSeq
+                    sess.id2 = row[0].id
+                    sess.seq = row[0].seq
+                    console.log(sess.id2)
+                    console.log(sess.seq)
+                    // req.session.seq = loginSeq
+                    
                 }else{
                     
                 }
@@ -35,11 +41,12 @@ router.get('/login', function(req, res) {
             }
         })
     })
-
-    res.send("admin main page");  
+    res.render('admin/products',
+        {message: sess.id2+"2"}
+    );
 })
 router.get("/logout", function(req, res) {
-    if(req.session.id){
+    if(req.session.seq){
         req.session.destroy(
             function(err){
                 if(err){
@@ -53,48 +60,41 @@ router.get("/logout", function(req, res) {
         console.log("로그인이 안됨");
 
     }
-    res.render('admin/products',
-        {message: "hellos, ejs"}
+    res.render('admin/products/',
+        {message: $2123}
     );
 })
 router.post("/sign", function(req, res){
-    var UserSelect = "SELECT seq FROM USERS WHERE id = ?"
-    var UserInsert = "INSERT USERS(id, password, name, phone, birth) values(?, ?, ?, ?, ?)"
-    var AllergyInsert = "INSERT USER_ALLERGY(USERS_seq, ALLERGY_seq) values(?, ?)"
+    var userSQL ="INSERT INTO USER(id, password, name, phone, birth) value(?, ?, ?, ?, ?)"
+    var selectUserSQL ="SELECT seq FROM USER WHERE id=?"
+    var allergySQL ="INSERT INTO USER_ALLERGY(USER_seq,ALLERGY_seq) value(?, ?)"
     let body = req.query;
     let id = body.id;
     let pw = body.password;
     let nm = body.name;
     let phone = body.phone;
     let birth = body.birth;
-    let allergy =body.allergy;
-    var UserInsertParam = [id, pw, nm, phone, birth];
-    var UserSelectParam = [id];
-    console.log(req);
-    console.log("여기를 확인해주세요 !");
-    console.log(body);
+    let allergy = body.allergy;
+
+    var param = [id,pw,nm,phone,birth];
+    var param1 = [id];
     pool.getConnection(function(err, conn){
-        conn.query(UserInsert, UserInsertParam, function(err, row){
+        conn.query(userSQL, param, function(err, row){
             if(err){
                 console.log(err);
             }else{
-                console.log("유저 정보 삽입 성공하셨습니다.");
-                conn.query(UserSelect, UserSelectParam, function(err,rows,filed){
-                    if(err){
-                        console.log(err);
-                    }else{
-
-                        console.log(filed)
-                        console.log(rows[0].seq)
-                        let data = rows[0].seq
-                        console.log("유저번호 검색 성공하셨습니다.");
-                        console.log(allergy);
+                console.log("회원 정보 입력이 성공하셨습니다 회원의 번호를 조회합니다.");
+                conn.query(selectUserSQL, param1, function(err, row){
+                    if(err){ console.log(err)}
+                    else{
+                        console.log("회원 번호 조회가 성공하셨습니다. 회원 알레르기 입력을 시작합니다.");
                         allergy.forEach(function(element){
-                            conn.query(AllergyInsert, [data,element], function(err,row){
-                                if(err){
-                                    console.log(err);
-                                }else{
-                                    console.log("알레지 번호:"+ element + "성공하셨습니다.")
+                            console.log("알레르기 삭제 번호 : "+element)
+                            var param2 = [row[0].seq, element]
+                            conn.query(allergySQL, param2, function(err, row){
+                                if(err) {console.log(err)}
+                                else{
+                                    console.log(element + "의 알레르기 입력 성공하셨습니다.")
                                 }
                             })
                         })
@@ -103,19 +103,72 @@ router.post("/sign", function(req, res){
             }
         })
     })
-
-    // conn.query(UserSelect, UserSelectParam, function(err, results, filed){
-    //     res.render('유저조회 성공하셨습니다. 시퀀스를 들고옵니다.');
-    // })
-
+    res.send("성공")
 
 })
 router.get("/", function(req, res){
-    let body = req.body
-    let seq = req.session.req;
-    let url = "/allergy"+seq;
+    let seq = req.session.seq;
+    let url = "/allergy/"+seq;
     console.log(url);
+    console.log(seq);
+    res.send("성공")
 })
+
+router.get("/update",function(req,res){
+    var UserInsert = "SELECT * FROM USER "
+                    +"JOIN USER_ALLERGY on USER.seq = USER_seq "
+                    +"JOIN ALLERGY on ALLERGY.seq = ALLERGY_seq "
+                    +"WHERE USER.seq = ?"
+    var param = [req.session.seq]
+    console.log("현재 세션 번호는 " + req.session.seq)
+    pool.getConnection(function(err, conn){
+        conn.query(UserInsert, param, function(err, row){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("정보 조회 성공하셨습니다.");
+                console.log(row);
+            }
+        })
+    })
+    res.send("성공")
+})
+
+router.post("/update",function(req, res){
+    let body = req.query
+    let allergy = body.allergy
+    var deleteAllergy = "DELETE FROM USER_ALLERGY WHERE USER_seq = ?"
+    var insertAllergy = "INSERT INTO USER_ALLERGY(USER_seq, ALLERGY_seq) values(?, ?)"
+
+    var seq = req.session.seq;
+    var param = [seq];
+
+
+    pool.getConnection(function(err, conn){
+        conn.query(deleteAllergy, param, function(err, row){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("알레르기 정보 변경 성공하셨습니다.");
+            }
+        })
+        if(allergy){
+            allergy.forEach(function(e){
+                var param2 = [seq, e];
+                conn.query(insertAllergy, param2, function(err, row){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log("알레르기 수정 하셨습니다.");
+                    }
+                })
+            })
+        }
+       
+    })
+    res.send("성공")
+})
+
 router.get("/test" , function(req,res){
 var sql = 'SELECT * FROM USERS WHERE id = ?'
 
