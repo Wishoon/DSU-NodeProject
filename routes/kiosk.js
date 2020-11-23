@@ -72,7 +72,9 @@ router.get("/", function(req, res){
             }
         })
     })
-    res.send("good")
+    res.render('admin/jsQR.ejs/',
+        {message: ""}
+    );
 })
 
 router.get("/category/:name", function(req, res){
