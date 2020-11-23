@@ -1,5 +1,6 @@
 const express = require('express');
 var pool = require('../conf/mysql');
+const QRCode = require("qrcode");
 const { param } = require('./admin');
 var router = express.Router();
 // var conn = mysql.connection;
@@ -46,6 +47,7 @@ router.post('/login', function(req, res) {
     );
 })
 router.get("/logout", function(req, res) {
+    
     if(req.session.seq){
         req.session.destroy(
             function(err){
@@ -106,13 +108,24 @@ router.post("/sign", function(req, res){
     res.send("성공")
 
 })
-router.get("/", function(req, res){
-    let seq = req.session.seq;
-    let url = "/allergy/"+seq;
-    console.log(url);
-    console.log(seq);
-    res.send("성공")
-})
+router.get("/", (req, res) => {
+    const inputText = `
+      첫번째 생성하는 QR 코드
+    `;
+  
+    QRCode.toDataURL(inputText, (err, url) => {
+      const data = url.replace(/.*,/, "");
+      const img = new Buffer.from(data, "base64");
+  
+      res.writeHead(200, {
+        "Content-Type": "image/png",
+        "Content-Length": img.length
+      });
+  
+      res.end(img);
+    });
+  });
+  
 
 router.get("/update",function(req,res){
     var UserInsert = "SELECT * FROM USER "
