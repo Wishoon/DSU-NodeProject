@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var session = require('express-session')
+var session = require('express-session');
+var QRCode = require('qrcode');
 var MySQLStore = require('express-mysql-session')(session);
 
 
@@ -45,11 +46,14 @@ app.get('/', function(req, res) {
 
 // routes add
 
+app.use(express.static('public'))
+app.use(express.static('css'))
+app.use(express.static('js'))
+app.use(express.static('html'))
 app.use('/admin', admin);
 app.use("/user", user );
 app.use("/company", company);
 app.use("/kiosk",kiosk);
-
 app.listen(port, function() {
     console.log('Express listening on port : ', port);
 })
