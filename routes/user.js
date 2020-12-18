@@ -7,8 +7,18 @@ var router = express.Router();
 
 
 router.get('/login', function(req, res) {
-    res.render('admin/products',
+    res.render('user/login',
         {message: req.session.id+"2"}
+    );
+
+})
+router.get('/sign', function(req, res){
+    res.render('user/sign')
+})
+router.get('/main', function(req,res){
+    
+    res.render('user/user', 
+        {name : req.session.name}
     );
 
 })
@@ -16,10 +26,11 @@ router.get('/login', function(req, res) {
 router.post('/login', function(req, res) {
     var LoginSQL = "SELECT * FROM USER WHERE id = ? AND password = ?"
     var sess = req.session
-    let body = req.query;
+    let body = req.body;
     let id = body.id;
     let pw = body.password;
     let param = [id, pw];
+    console.log(req)
     console.log(body)
     console.log(id +"sssss" + pw)
     pool.getConnection(function(err, conn){
@@ -27,24 +38,25 @@ router.post('/login', function(req, res) {
             
             if(err){
                 console.log(err);
+                return;
             }else{
-                if(row){
+                console.log(row)
+                if(row.length>=1){
+                    console.log(row)
                     sess.id2 = row[0].id
                     sess.seq = row[0].seq
+                    sess.name = row[0].name
                     console.log(sess.id2)
                     console.log(sess.seq)
-                    // req.session.seq = loginSeq
-                    
+                    // req.session.seq = loginSeq    
+                    res.redirect('/user/main')
                 }else{
-                    
+                    res.redirect('/user/login')
                 }
 
             }
         })
     })
-    res.render('admin/products',
-        {message: sess.id2+"2"}
-    );
 })
 router.get("/logout", function(req, res) {
     
@@ -60,9 +72,9 @@ router.get("/logout", function(req, res) {
         );
     } else {
         console.log("로그인이 안됨");
-
+        return;
     }
-    res.render('admin/products/',
+    res.render('/user/login/',
         {message: $2123}
     );
 })
@@ -70,7 +82,7 @@ router.post("/sign", function(req, res){
     var userSQL ="INSERT INTO USER(id, password, name, phone, birth) value(?, ?, ?, ?, ?)"
     var selectUserSQL ="SELECT seq FROM USER WHERE id=?"
     var allergySQL ="INSERT INTO USER_ALLERGY(USER_seq,ALLERGY_seq) value(?, ?)"
-    let body = req.query;
+    let body = req.body;
     let id = body.id;
     let pw = body.password;
     let nm = body.name;
@@ -105,7 +117,7 @@ router.post("/sign", function(req, res){
             }
         })
     })
-    res.send("성공")
+    res.redirect("/user/login")
 
 })
 router.get("/", (req, res) => {
@@ -144,7 +156,7 @@ router.get("/update",function(req,res){
             }
         })
     })
-    res.send("성공")
+    res.render('/user/update')
 })
 
 router.post("/update",function(req, res){
