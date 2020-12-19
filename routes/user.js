@@ -42,7 +42,6 @@ router.post('/login', function(req, res) {
             }else{
                 console.log(row)
                 if(row.length>=1){
-                    console.log(row)
                     sess.id2 = row[0].id
                     sess.seq = row[0].seq
                     sess.name = row[0].name
