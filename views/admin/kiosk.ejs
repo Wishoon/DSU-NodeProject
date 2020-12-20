@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html style="border-color: rgba(0,0,0,0.08);">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="/assets10/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface">
+    <link rel="stylesheet" href="/assets10/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/assets10/css/smoothproducts.css">
+    <link rel="stylesheet" href="/assets10/css/styles.css">
+    <script type="text/javascript" src="/jsQR.js"></script>
+<style type="text/css">
+	main {
+		width:100%;
+		height:100%;
+		text-align:center;
+	}
+    main > div {
+		float:left;
+		width:1%;
+		height:98%;
+	}
+	main > div:first-child {
+		width:49%;
+	}
+	main > div:last-child {
+		background-color:#D3D3D3;
+		width:49%;
+	}
+	div#output {
+		background-color:#BDBEBD;
+		padding-left:10px;
+		padding-right:10px;
+		padding-top:10px;
+		padding-bottom:10px;
+	}
+	div#frame {
+		border:2px solid #005666;
+		background-color:#FFFFFF;
+		margin-left:10px;
+		margin-right:10px;
+		padding-left:8px;
+		padding-right:8px;
+		padding-top:8px;
+		padding-bottom:8px;
+	}
+	div#outputLayer {
+		text-align:left;
+	}
+	canvas {
+		width:100%;
+	}
+</style>
+</head>
+
+<body style="height: 100%;">
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+        <div style="width: 100%;"><a class="navbar-brand logo" href="#">Brand</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <a href="#"style="color:black;float: right; padding-right: 10px; margin-top:10px" id="QRCODE">QR cdoe</a>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="page landing-page" style="height: 84.5%;">
+        <div class="table-responsive float-left" style="width: 15%;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cateogry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="#" style="color: black ;">Cell 1</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" style="color: black ;">Cell 1</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <section class="float-right clean-block about-us" style="width: 80%;margin-left: 0%;height: 100%;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"></div><input class="form-control-plaintext" type="text" value="Menu" readonly="" style="font-size: 32px;font-family: 'Abril Fatface', cursive;padding-top: 0px;"></div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"></div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"></div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
+                            <span>
+                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
+                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
+                            <input type="hidden" value="3000">
+                            <input type="hidden" value="15">
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
+                            <span>
+                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
+                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
+                            <input type="hidden" value="3000">
+                            <input type="hidden" value="13">
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
+                            <span>
+                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
+                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
+                            <input type="hidden" value="3000">
+                            <input type="hidden" value="8">
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
+                            <span>
+                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
+                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
+                            <input type="hidden" value="3000">
+                            <input type="hidden" value="5">
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                    </div>
+
+                </div>
+            </div>
+            <div class="container" style="margin-top: 10px;"><a class="btn btn-outline-primary " role="button" href="#">← Back</a><a class="btn btn-outline-primary float-right" role="button" href="#">Next →</a></div>
+        </section>
+    </div>
+    <footer class="page-footer dark" style="clear: both;height: 15.1%;width: 100%;color: rgb(0,0,0);background: rgb(242,242,242);padding-top: 5px;">
+        <h3>Order &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>총 갯수 <small>1</small></small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <small id="money"> 가격: 16000</small></h3>
+      
+        <button style="margin-top: 50px;margin-right: 20px ; margin-left: 20px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#modal1" type="button" style="margin-right: 10px;margin-left: 10px;">취소</button>
+        <button style="margin-top: 50px;" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal1" type="button">주문</button>  
+        <div id="orders">
+        <div style="border: thin solid  black; width: 250px;margin-right:30px; margin-left: 30px;float: left;" ><p style="font-size: 20px; height: 30px;"><strong style="margin-left: 10px;">햄버거</strong> <span style="margin-right:10px;float: right;">가격:3000</span></p>
+            <div style = "float:right" class="plusMinus qty mt-2">
+                <input type="hidden" class="Price" name = "Price" value="3000"/>
+                <input type="hidden" class="Seq" name="Seq" value="3"/>
+                <span class="minus bg-dark">-</span>
+                <input type="number" class="count123" name="qty" value="1">
+                <span class="plus bg-dark">+</span>
+            </div>
+        </div>
+        <div style="border: thin solid black; width: 250px;margin-right:30px; float: left;" ><p style="font-size: 20px; height: 30px;"><strong style="margin-left: 10px;">햄버거</strong> <span style="margin-right:10px;float: right;">가격:3000</span></p>
+            <div style = "float:right" class="plusMinus qty mt-2">
+                <input type="hidden" class="Price" name = "Price" value="3000"/>
+                <input type="hidden" class="Seq" name="Seq" value="2"/>
+                <span class="minus bg-dark">-</span>
+                <input type="number" class="count123" name="qty" value="1">
+                <span class="plus bg-dark">+</span>
+            </div>
+        </div>
+        </div>            
+        </footer>
+        <div class="modal fade" id="QRModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">알레르기 QR코드 인식</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3" >
+                    <div id="test">
+                        <h1>QR 코드 리더</h1>
+                        <div id="output">
+                            <div id="outputMessage">
+                                QR코드를 카메라에 노출시켜 주세요
+                            </div>
+                            <div id="outputLayer" hidden>
+                                <span id="outputData"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div>
+                        <h1>스캔</h1>
+                        <div id="frame">
+                            <div id="loadingMessage">
+                                🎥 비디오 스트림에 액세스 할 수 없습니다<br/>웹캠이 활성화되어 있는지 확인하십시오
+                            </div>
+                            <canvas id="canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/assets10/js/jquery.min.js"></script>
+    <script src="/assets10/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script src="/assets10/js/smoothproducts.min.js"></script>
+    <script src="/assets10/js/theme.js"></script>
+    <script src="/assets10/js/bs-init.js"></script>
+</body>
+<script type="text/javascript">	
+	document.addEventListener("DOMContentLoaded", function() {
+		var video = document.createElement("video");		
+		var canvasElement = document.getElementById("canvas");
+		var canvas = canvasElement.getContext("2d");
+		var loadingMessage = document.getElementById("loadingMessage");
+		var outputContainer = document.getElementById("output");
+		var outputMessage = document.getElementById("outputMessage");
+		var outputData = document.getElementById("outputData");
+		function drawLine(begin, end, color) {
+			canvas.beginPath();
+			canvas.moveTo(begin.x, begin.y);
+			canvas.lineTo(end.x, end.y);
+			canvas.lineWidth = 4;
+			canvas.strokeStyle = color;
+			canvas.stroke();
+         }
+	    // 카메라 사용시
+		navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+      		        video.srcObject = stream;
+      		        video.setAttribute("playsinline", true);      // iOS 사용시 전체 화면을 사용하지 않음을 전달
+         		video.play();
+      		        requestAnimationFrame(tick);
+		});
+		function tick() {
+			loadingMessage.innerText = "⌛ 스캔 기능을 활성화 중입니다."
+			if(video.readyState === video.HAVE_ENOUGH_DATA) {
+        		      loadingMessage.hidden = true;
+        		      canvasElement.hidden = false;
+        		      outputContainer.hidden = false;
+        		      // 읽어들이는 비디오 화면의 크기
+        		      canvasElement.height = video.videoHeight;
+        	 	      canvasElement.width = video.videoWidth;
+        		      canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+        		      var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+        		      var code = jsQR(imageData.data, imageData.width, imageData.height, {
+                        inversionAttempts : "dontInvert",
+        		      });
+                    // QR코드 인식에 성공한 경우
+                    if(code) {
+                  // 인식한 QR코드의 영역을 감싸는 사용자에게 보여지는 테두리 생성
+                        drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF0000");
+                        drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF0000");
+                        drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF0000");
+                        drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF0000");
+                        outputMessage.hidden = true;
+                        outputData.parentElement.hidden = false;
+                        // QR코드 메시지 출력
+                        outputData.innerHTML = code.data;
+                        // return을 써서 함수를 빠져나가면 QR코드 프로그램이 종료된다.
+                        // return;
+                    }
+                    // QR코드 인식에 실패한 경우 
+                    else {
+                        outputMessage.hidden = false;
+                        outputData.parentElement.hidden = true;
+                    }
+            }
+        requestAnimationFrame(tick);
+		}
+	});
+
+</script>
+</html>
