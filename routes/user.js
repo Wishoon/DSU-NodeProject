@@ -30,11 +30,10 @@ router.post('/login', function(req, res) {
     let id = body.id;
     let pw = body.password;
     let param = [id, pw];
-    console.log(req)
     console.log(body)
     console.log(id +"sssss" + pw)
     pool.getConnection(function(err, conn){
-        conn.query(LoginSQL, param, function(err, row, filed){
+        conn.query(LoginSQL, param, function(err, row){
             
             if(err){
                 console.log(err);
