@@ -79,8 +79,10 @@ router.post("/productnew",upload.single('product_IMG'), function(req, res){
   console.log(req.file.filename)
   console.log(req.file)
   let body = req.body;
-  let allergy = body.allergy;
-  let allergy1 = body.allergy1;
+  let allergy = [];
+  allergy = body.allergy;
+  let allergy1 = []; 
+  allergy1 = body.allergy1;
    // console.log(req.body);
   // const multer = require('multer')
     if(req.body.product_NAME =='' || req.body.product_CATEGORY == '' || req.body.product_IMG == ''|| req.body.product_PRICE == ''|| req.body.product_DETAIL == ''){

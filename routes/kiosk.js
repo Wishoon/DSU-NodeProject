@@ -5,56 +5,20 @@ var router = express.Router();
 // var conn = mysql.connection;
 
 router.get("/kiosk",function(req, res){
-    res.render("admin/kiosk")
-})
-router.post("/login", function(req, res){
-    var LoginSQL = "SELECT * FROM COMPANY WHERE id = ? AND password = ?"
-    let sess = req.session
-    let body = req.query;
-    let id = body.id;
-    let pw = body.password;
-    let param = [id, pw];
+    var MenuSQL = "SELECT * FROM product"
     pool.getConnection(function(err, conn){
-        conn.query(LoginSQL, param, function(err, row, filed){
-            
+        conn.query(MenuSQL, function(err, row, filed){
+            console.log(row)
+            res.render("user/kiosk", {
+                data: row
+            });
             if(err){
                 console.log(err);
-            }else{
-                if(row[0]){
-                    console.log("주문 내역 가져오기 성공")
-                    sess.CompanyId = row[0].id
-                    sess.CompanySeq = row[0].seq
-                    console.log(sess.CompanyId)
-                    console.log(sess.CompanySeq)
-                    // req.session.seq = loginSeq
-                }else{
-                    console.log("아이디 및 비밀번호가 틀렸습니다.")
-                }
-
             }
         })
     })
-    res.send("good")
 })
 
-router.get("/logout", function(req, res) {
-    if(req.session.CompanySeq){
-        req.session.destroy(
-            function(err){
-                if(err){
-                    console.log("세션 삭제시 에러");
-                    return;
-                }
-                console.log('세션 삭제 성공');
-            }
-        );
-    } else {
-        console.log("로그인이 안됨");
-    }
-    res.render('admin/products',
-        {message: "2323"}
-    );
-})
 router.get("/order2", function(req, res) {
     
     // var param = [req.session.]
