@@ -61,8 +61,7 @@
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
         <div style="width: 100%;"><a class="navbar-brand logo" href="#">Brand</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <a href="#"style="color:black;float: right; padding-right: 10px; margin-top:10px" id="QRCODE">QR cdoe</a>
-            <div class="collapse navbar-collapse"
-                id="navcol-1">
+            <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -75,17 +74,18 @@
     <div class="page landing-page" style="height: 84.5%;">
         <div class="table-responsive float-left" style="width: 15%;">
             <table class="table">
-                <thead>
-                    <tr>
-                        <th>Cateogry</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
-                        <td><a href="#" style="color: black ;">Cell 1</a></td>
+                        <td><a href="#" style="color: black ;">카테고리 1</a></td>
                     </tr>
                     <tr>
-                        <td><a href="#" style="color: black ;">Cell 1</a></td>
+                        <td><a href="#" style="color: black ;">카테고리 2</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" style="color: black ;">카테고리 3</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" style="color: black ;">카테고리 4</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -103,80 +103,31 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
+                    <% data.forEach(function(data, index){ %>
                     <div class="col-sm-6 col-lg-4">
                         <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
                             <span>
-                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
-                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
+                            <h4 style="padding: 10px; float: left;" ><%= data.name %> </h4>
+                            <strong style="float: right; font-size: 20px; ">가격: <%= data.price %> </strong>
                             <input type="hidden" value="3000">
                             <input type="hidden" value="15">
                         </span>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
-                            <span>
-                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
-                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
-                            <input type="hidden" value="3000">
-                            <input type="hidden" value="13">
-                        </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
-                            <span>
-                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
-                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
-                            <input type="hidden" value="3000">
-                            <input type="hidden" value="8">
-                        </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><a class="menu" href="#"><img class="card-img-top w-100 d-block" src="/assets10/img/avatars/avatar1.jpg"></a>
-                            <span>
-                            <h4 style="padding: 10px; float: left;" >햄버거 </h4>
-                            <strong style="float: right; font-size: 20px; ">가격: 3000 </strong>
-                            <input type="hidden" value="3000">
-                            <input type="hidden" value="5">
-                        </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                    </div>
-
+                    <% }); %>
                 </div>
             </div>
             <div class="container" style="margin-top: 10px;"><a class="btn btn-outline-primary " role="button" href="#">← Back</a><a class="btn btn-outline-primary float-right" role="button" href="#">Next →</a></div>
         </section>
     </div>
     <footer class="page-footer dark" style="clear: both;height: 15.1%;width: 100%;color: rgb(0,0,0);background: rgb(242,242,242);padding-top: 5px;">
-        <h3>Order &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>총 갯수 <small>1</small></small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <small id="money"> 가격: 16000</small></h3>
+        <h3>Order &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>총 갯수: 0</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <small id="money"> 가격: 0</small></h3>
       
         <button style="margin-top: 50px;margin-right: 20px ; margin-left: 20px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#modal1" type="button" style="margin-right: 10px;margin-left: 10px;">취소</button>
         <button style="margin-top: 50px;" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal1" type="button">주문</button>  
         <div id="orders">
-        <div style="border: thin solid  black; width: 250px;margin-right:30px; margin-left: 30px;float: left;" ><p style="font-size: 20px; height: 30px;"><strong style="margin-left: 10px;">햄버거</strong> <span style="margin-right:10px;float: right;">가격:3000</span></p>
-            <div style = "float:right" class="plusMinus qty mt-2">
-                <input type="hidden" class="Price" name = "Price" value="3000"/>
-                <input type="hidden" class="Seq" name="Seq" value="3"/>
-                <span class="minus bg-dark">-</span>
-                <input type="number" class="count123" name="qty" value="1">
-                <span class="plus bg-dark">+</span>
-            </div>
-        </div>
-        <div style="border: thin solid black; width: 250px;margin-right:30px; float: left;" ><p style="font-size: 20px; height: 30px;"><strong style="margin-left: 10px;">햄버거</strong> <span style="margin-right:10px;float: right;">가격:3000</span></p>
-            <div style = "float:right" class="plusMinus qty mt-2">
-                <input type="hidden" class="Price" name = "Price" value="3000"/>
-                <input type="hidden" class="Seq" name="Seq" value="2"/>
-                <span class="minus bg-dark">-</span>
-                <input type="number" class="count123" name="qty" value="1">
-                <span class="plus bg-dark">+</span>
-            </div>
-        </div>
+        
+        
         </div>            
         </footer>
         <div class="modal fade" id="QRModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

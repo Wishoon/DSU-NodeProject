@@ -1,4 +1,5 @@
 var express = require('express');
+const { response } = require('../app');
 var pool = require('../conf/mysql')
 var router = express.Router();
 // var conn = mysql.connection;
@@ -11,11 +12,13 @@ router.get("/login", function(req, res){
 })
 
 router.post("/login", function(req, res){
-    var LoginSQL = "SELECT * FROM COMPANY WHERE id = ? AND password = ?"
-    let body = req.query;
-    let sess = req.session
+    var LoginSQL = "SELECT * FROM company WHERE id = ? AND password = ?"
+    let body = req.body;
+    let sess = req.session;
+    
     let id = body.id;
     let pw = body.password;
+    console.log(id, pw)
     let param = [id, pw];
     pool.getConnection(function(err, conn){
         conn.query(LoginSQL, param, function(err, row, filed){
@@ -23,7 +26,7 @@ router.post("/login", function(req, res){
             if(err){
                 console.log(err);
             }else{
-                if(row){
+                if(row.length>=1){
                     sess.id = row[0].id
                     sess.seq = row[0].seq
                     console.log(sess.id)
@@ -36,7 +39,41 @@ router.post("/login", function(req, res){
             }
         })
     })
-    res.send("성공")
+    res.redirect("/company/orderState");
+})
+
+router.get("/orderState", function(req, res){
+
+    var OrderStateSQL = "SELECT * FROM orders a, orders_info b, product c WHERE a.seq = b.ORDERS_seq AND b.PRODUCT_seq = c.seq AND a.yn = 'N'"
+    var results;
+    pool.getConnection(function(err, conn){
+        conn.query(OrderStateSQL, function(err, row, filed){
+            console.log(row)
+            res.render("company/orderState", {
+                data: row
+            });
+            if(err){
+                console.log(err);
+            }
+        })
+    })
+})
+
+router.post("/orderFinish", function(req, res){
+    var OrderFinishSQL = "UPDATE orders SET yn = 'Y' where order_seq = ?"
+    let body = req.body;
+    let order_seq = body.order_seq;
+    console.log(order_seq)
+    let param = [order_seq];
+
+    pool.getConnection(function(err, conn){
+        conn.query(OrderFinishSQL, param, function(err, row){
+            if(err){
+                console.log(err);
+            }
+        })
+    })
+    res.redirect("/company/orderState");
 })
 
 router.get("/logout", function(req, res) {
