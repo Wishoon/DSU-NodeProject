@@ -4,6 +4,13 @@ var router = express.Router();
 // var conn = mysql.connection;
 
 router.get("/login", function(req, res){
+
+    res.render('company/login',
+        {message: "hello"}
+    );
+})
+
+router.post("/login", function(req, res){
     var LoginSQL = "SELECT * FROM COMPANY WHERE id = ? AND password = ?"
     let body = req.query;
     let sess = req.session

@@ -17,7 +17,7 @@ router.post("/login", function(req, res){
                 console.log(err);
             }else{
                 if(row[0]){
-                    console.log("로그인 성공")
+                    console.log("주문 내역 가져오기 성공")
                     sess.CompanyId = row[0].id
                     sess.CompanySeq = row[0].seq
                     console.log(sess.CompanyId)
@@ -48,6 +48,13 @@ router.get("/logout", function(req, res) {
         console.log("로그인이 안됨");
     }
     res.render('admin/products',
+        {message: "2323"}
+    );
+})
+router.get("/order2", function(req, res) {
+    
+    // var param = [req.session.]
+    res.render('user/order',
         {message: "2323"}
     );
 })
