@@ -1,8 +1,12 @@
+const { render } = require('ejs');
 const express = require('express');
 var pool = require('../conf/mysql')
 var router = express.Router();
 // var conn = mysql.connection;
 
+router.get("/kiosk",function(req, res){
+    res.render("admin/kiosk")
+})
 router.post("/login", function(req, res){
     var LoginSQL = "SELECT * FROM COMPANY WHERE id = ? AND password = ?"
     let sess = req.session
