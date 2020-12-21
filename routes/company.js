@@ -44,52 +44,27 @@ router.post("/login", function(req, res){
 
 router.get("/orderState", function(req, res){
 
-    var OrderStateSQL = "SELECT * FROM orders a, orders_info b, product c WHERE a.seq = b.ORDERS_seq AND b.PRODUCT_seq = c.seq AND a.yn = 'N'"
-    var allergy = 'select b.seq, allergy.name as allergy, createAt, p.name from user_allergy join allergy on allergy.seq = user_allergy.ALLERGY_seq join user u on u.seq = user_allergy.user_seq join orders b on u.seq = b.user_seq join orders_info oi on b.seq = oi.orders_seq join product p on p.seq = oi.product_seq where user_allergy.user_seq = ? and p.seq = ? and allergy_seq in (select allergy_seq from product_allergy where product_seq = ?)';
+    var OrderStateSQL = "SELECT * FROM orders a, orders_info b, product c WHERE a.seq = b.ORDERS_seq AND b.PRODUCT_seq = c.seq AND a.yn = 'n'"
+    var allergy = 'select orders_info_seq as seq, Allprice, createAt, p.name, (select group_concat(" ",name) from user_allergy join allergy on user_allergy.allergy_seq = allergy.seq where user_allergy.user_seq = orders.user_seq and user_allergy.allergy_seq in (select allergy_seq from product_allergy where product_allergy.PRODUCT_seq = p.seq)) as allergy from orders join orders_info oi on oi.orders_seq = orders.seq join product p on p.seq = oi.PRODUCT_seq where oi.yn = "n"';
     var results;
     data = [];
     result = [];
     data2 = {};
     pool.getConnection(function(err, conn){
-        conn.query(OrderStateSQL, function(err, row, filed){
-            data = row;
-            if(data){
-                for(var i =0 ; i<row.length; i++){
-                    conn.query(allergy, [row[i].user_seq, row[i].PRODUCT_seq,row[i].PRODUCT_seq], function(err, row2, filed){
-                        var str = "";
-                        for (var j = 0 ; j< row2.length; j++){
-                            str = str + row2[j].allergy + " "
-                            data2.str = str;
-                        }
-                        row2[0].str = str;
-                        data.push(row2[0])
-                        result.push(row2[0])
-                        console.log(parseInt(i) , ",,,,,,,,,,,,,,,,,,,,,,,," , parseInt(row.length)-i)
-                        if(parseInt(i)==parseInt(row.length)-i)
-                        {   
-                            console.log(result)
-                            res.render("company/orderState", {
-                                sess : 1,
-                                data: result
-                            });
-                        }
-                    })
+        conn.query(allergy, function(err, row, filed){
+            res.render('company/orderState',
+                {data: row,
+                   sess :1
                 }
-            }
-            
-            if(err){
-                console.log(err);
-            }
+            );
         })
-        console.log(data.length);
-        
     })
 })
 
-router.post("/orderFinish", function(req, res){
-    var OrderFinishSQL = "UPDATE orders SET yn = 'Y' where order_seq = ?"
-    let body = req.body;
-    let order_seq = body.order_seq;
+router.get("/orderfinish/:seq", function(req, res){
+    var OrderFinishSQL = "UPDATE orders_info SET yn = 'y' where orders_info_seq = ?"
+    let body = req.params;
+    let order_seq = body.seq;
     console.log(order_seq)
     let param = [order_seq];
 

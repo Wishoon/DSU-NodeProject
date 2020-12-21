@@ -95,11 +95,11 @@
                                         <td colspan=2 style="width: 266px;">주문항목: <%= data.name %></td>
                                     </tr>
                                     <tr>
-                                        <td colspan=2>특이사항: <%= data.str %></td>
+                                        <td colspan=2>특이사항: <%= data.allergy %></td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div><button class="btn btn-primary" type="button" style="margin-left: 89%;">완료</button>
+                        </div><button class="btn btn-primary" type="button" style="margin-left: 89%;" onclick="location.href ='/company/orderfinish/<%= data.seq %>'">완료</button>
                     </div>
                     <% }); %>
                     <div class="col-md-6"></div>
