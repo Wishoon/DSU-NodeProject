@@ -1,4 +1,5 @@
 var express = require('express');
+const { utc } = require('moment');
 var router = express.Router();
 var mysql = require('mysql');
  
@@ -10,6 +11,7 @@ var connection = mysql.createPool({
         user : 'root',
         password : '1111',
         database:'allergy3',
+        timezone :utc,
         multipleStatements: true
 });
  
