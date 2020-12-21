@@ -5,7 +5,7 @@ var router = express.Router();
 // var conn = mysql.connection;
 
 router.get("/kiosk",function(req, res){
-    var MenuSQL = "SELECT * FROM product"
+    var MenuSQL = "SELECT * FROM product WHERE category = 1"
     pool.getConnection(function(err, conn){
         conn.query(MenuSQL, function(err, row, filed){
             console.log(row)
@@ -23,6 +23,14 @@ router.get("/order2", function(req, res) {
     
     // var param = [req.session.]
     res.render('user/order',
+        {message: "2323"}
+    );
+})
+
+router.get("/orderEnd", function(req, res) {
+    
+    // var param = [req.session.]
+    res.render('user/orderEnd',
         {message: "2323"}
     );
 })
@@ -52,27 +60,63 @@ router.get("/", function(req, res){
     );
 })
 
-router.get("/category/:name", function(req, res){
-    var SQL = "SELECT * FROM PRODUCT WHERE COMPANY_seq = ? and category = ?"
-    var param = [req.session.CompanySeq, req.params.name];
+router.get("/category/:category_seq", function(req, res){
+    var SQL = "SELECT * FROM product WHERE category = ?"
+    var user_allergySQL = "SELECT * FROM user_allergy where USER_seq = ?"
+    var productSQL = "SELECT * FROM product_allergy where product_seq = ?"
+    var param = [req.params.category_seq];
     var data;
-    pool.getConnection(function(err, conn){
-        conn.query(SQL, param, function(err, row, filed){
-            if(err){
-                console.log(err);
-            }else{
-                console.log("상품 조회 성공 하셨습니다.");
-                if(row){
-                    data = row;
-                    console.log(data)
+    var sess = req.session;
+    console.log(sess.userSeq)
+    if(sess.userSeq){
+        pool.getConnection(function(err, conn){
+            conn.query(SQL, param, function(err, row, filed){
+                if(err){
+                    console.log(err)
                 }else{
-                    
+                    conn.query(user_allergySQL, [sess.seq], function(err, row2, filed){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            for(var i=0; i<row.length; i++){
+                                row[i].allergy= 0;
+                                conn.query(productSQL, [row[i].seq], function(err, row3, filed){
+                                    if(err){
+                                        console.log(err)
+                                    }else{
+                                        for(var j=0; j<row3.length; j++){
+                                            for(var k=0; k<row2.length; k++){
+                                                if(row3[j].ALLERGY_seq == row2[k].ALLERGY_seq){
+                                                    row[i].allergy = 1;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
                 }
-
-            }
+                
+                return res.json(row)
+            })
         })
-    })
-    res.send("good")
+    }
+    else{
+        pool.getConnection(function(err, conn){
+            conn.query(SQL, param, function(err, row, filed){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log("상품 조회 성공 하셨습니다.");
+                    if(row){
+                        return res.json(row)
+                    }
+                }
+            })
+        })
+    }
 })
 
 router.post("/order", function(req, res){
@@ -119,7 +163,13 @@ router.post("/order", function(req, res){
         })
     })
     res.send("성공")
-    
 })
-
+router.get("/qrcode/:seq", function(req, res){
+    param = req.params.seq;
+    sess = req.session;
+    console.log("파라메터값",seq);
+    sess.userSeq = param
+    console.log("session값", sess.userSeq);
+    return 0;
+})
 module.exports = router;

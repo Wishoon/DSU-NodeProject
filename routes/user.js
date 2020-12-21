@@ -119,9 +119,8 @@ router.post("/sign", function(req, res){
 
 })
 router.get("/", (req, res) => {
-    const inputText = `
-      첫번째 생성하는 QR 코드
-    `;
+    sess = req.session
+    const inputText = '/qrcode/'+sess.seq;
   
     QRCode.toDataURL(inputText, (err, url) => {
       const data = url.replace(/.*,/, "");
