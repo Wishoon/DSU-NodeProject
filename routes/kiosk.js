@@ -135,50 +135,75 @@ router.get("/category/:category_seq", function(req, res){
 })
 
 router.post("/order", function(req, res){
-    var OrderSQL = "INSERT ORDERS(Allprice) values (?)"
+    var OrderSQL = "INSERT orders(Allprice, user_seq) values (?, ?)"
     var OrderSelectSQL = "SELECT max(seq)as seq FROM ORDERS"
     var OrderInsertSQL = "INSERT ORDERS_INFO(ORDERS_seq,PRODUCT_seq, COUNT) value(?,?,?)"
 
     let body = req.body;
-    console.log(body);
-    console.log(body.length);
-    // let price = body.price;
-    // let count = body.count;
-    // let seq = body.seq; 
-    // let Allprice = 0;
+    var sess = req.session.userSeq;
 
-    // price.forEach(function(price){
-    //     Allprice = Allprice + parseInt(price)
-    // })
-    // console.log(Allprice)
-    // param = [Allprice]
-    // pool.getConnection(function(err, conn){
-    //     conn.query(OrderSQL, param, function(err, row){
-    //         if(err){
-    //             console.log(err);
-    //         }else{
-    //             console.log("주문 번호 생성 완료 했습니다 번호를 조회합니다.");
-    //             conn.query(OrderSelectSQL, function(err, row){
-    //                 if(err){
-    //                     console.log(err);
-    //                 }
-    //                 else{
-    //                     console.log("주문 번호 조회 했습니다 주문 상세 정보를 입력합니다")
-    //                     for(var i = 0 ; i < count.length; i++){
-    //                         var param2 = [row[0].seq, seq[i], count[i]]
-    //                         conn.query(OrderInsertSQL, param2, function(err, row){
-    //                             if(err){
-    //                                 console.log(err);
-    //                             }else{
-    //                                 console.log("주문 상세 정보를 입력 완료 했습니다")
-    //                             }
-    //                         })
-    //                     }
-    //                 }
-    //             })
-    //         }
-    //     })
-    // })
+    console.log(body);
+    console.log(sess);
+    
+    // var order_num = Object.keys(body).length;
+
+    var order_num = Object.values(body.Price).length;
+    // console.log(order_num);
+    console.log(order_num);
+    
+    // console.log(body[0]);
+    
+    // let count =  body[i].count;
+    // let seq =  body[i].seq; 
+    // body.forEach((function(body){
+    //     console.log(body);
+    // }));
+    var Price = [];
+    var Seq = [];
+    var qty = [];
+    var yn = "n";
+    for (var j=0; j<order_num; j++) {
+        Price[j] = body.Price[j];
+        Seq[j] = body.Seq[j];
+        qty[j] = body.qty[j];
+    }
+   
+    let price = body.Price;
+    let Allprice = 0;
+    price.forEach((function(price){
+        Allprice = Allprice + parseInt(price)
+    }));
+
+    console.log(Allprice);
+    
+    param = [Allprice, sess, yn];
+    pool.getConnection(function(err, conn){
+        conn.query(OrderSQL, param, function(err, row){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("주문 번호 생성 완료 했습니다 번호를 조회합니다.");
+                conn.query(OrderSelectSQL, function(err, row){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log("주문 번호 조회 했습니다 주문 상세 정보를 입력합니다")
+                        for(var i = 0 ; i < order_num; i++){
+                            var param2 = [row[0].seq, Seq[i], qty[i]]
+                            conn.query(OrderInsertSQL, param2, function(err, row){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    console.log("주문 상세 정보를 입력 완료 했습니다")
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        })
+    })
     res.send("성공")
 })
 router.get("/qrcode/:seq", function(req, res){

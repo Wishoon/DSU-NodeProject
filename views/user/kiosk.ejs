@@ -68,17 +68,23 @@
 <script>
     $(document).ready(function() {
         $('#order').on("click", function() {
-            var order_list;
+            var order_list = [];
+            // var json_str2 = $('#orders').children().children().next().children().serialize(true);
             var json_str = $('#orders').children().children().next().children().serializeArray(true);
-            alert(json_str.length)
-            var json_str1 = JSON.stringify(json_str)
-            console.log(json_str1);
-            $.ajax({
-                url: "/kiosk/order/", 
-                data: {data: json_str1},
-                type: "POST",                             
-                dataType: "json"                        
-            })
+            // console.log(json_str2);
+            console.log(json_str[3]);
+           
+            console.log(json_str);
+            alert("총 "+ json_str.length/3 +"개를 주문하셨습니다."+ '\n' + "주문완료 하시겠습니까??");
+            // alert(json_str.length)
+            // var json_str1 = JSON.stringify(json_str)
+            // console.log(json_str1);
+            // $.ajax({
+            //     url: "/kiosk/order/", 
+            //     data: json_str,
+            //     type: "POST",                             
+            //     dataType: "json"                        
+            // })
         });
         $('.category').on("click", function() {
             var category_seq = ($(this).next().val());
