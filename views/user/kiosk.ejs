@@ -67,6 +67,19 @@
 </head>
 <script>
     $(document).ready(function() {
+        $('#order').on("click", function() {
+            var order_list;
+            var json_str = $('#orders').children().children().next().children().serializeArray(true);
+            alert(json_str.length)
+            var json_str1 = JSON.stringify(json_str)
+            console.log(json_str1);
+            $.ajax({
+                url: "/kiosk/order/", 
+                data: {data: json_str1},
+                type: "POST",                             
+                dataType: "json"                        
+            })
+        });
         $('.category').on("click", function() {
             var category_seq = ($(this).next().val());
             console.log(category_seq);
@@ -109,6 +122,7 @@
 				$("#menubar").append(html);
                 }
                 $('.menu').click(function(){
+                
 				var name = $(this).next().children("h4").text()
 				var price = $(this).next().children("strong").text()
 				var price2 = $(this).next().children("input").val()
@@ -116,8 +130,9 @@
 				console.log(name)
 				console.log(price)
 				console.log(price2)
-				console.log(orderNum)
-				var html = '<div style="border: thin solid  black; width: 250px;margin-right:30px;float: left;" ><p style="font-size: 20px; height: 30px;"><strong style="margin-left: 10px;">'+name+'</strong> <span style="margin-right:10px;float: right;">'+price+'</span></p>'+
+                console.log(orderNum)
+                
+				var html = '<div class="hhhh" style="border: thin solid  black; width: 250px;margin-right:30px;float: left;" ><p style="font-size: 20px; height: 30px;"><strong style="margin-left: 10px;">'+name+'</strong> <span style="margin-right:10px;float: right;">'+price+'</span></p>'+
 						'<div style = "float:right" class="plusMinus qty mt-2">'+
 						'<input type="hidden" class="Price" name = "Price" value="'+price2+'"/>'+
 						'<input type="hidden" class="Seq" name="Seq" value="'+orderNum+'"/>'+
@@ -126,7 +141,6 @@
 						'<span class="plus bg-dark">+</span>'+
 					'</div>'+
                     '</div>';
-                
 				$("#orders").append(html);
 				
 				var length = $(".Seq").length;
@@ -197,7 +211,7 @@
                     <% data.forEach(function(data, index){ %>
                     <% if(data.allergy ==0){%>
                         <div class="col-sm-6 col-lg-4">
-                            <div class="card clean-card text-center"><a class="menu" href="#"><img style="width: 250px; height:300px;" class="card-img-top w-100 d-block" src=<%= data.img %>></a>
+                            <div class="card clean-card text-center"><a class="menu" href="#"><img style="width: 250px; height:300px;" class="card-img-top w-100 d-block" src='<%= data.img %>'></a>
                                 <span>
                                 <h4 style="padding: 10px; float: left;" ><%= data.name %> </h4>
                                 <strong style="float: right; font-size: 20px; ">가격: <%= data.price %> </strong>
@@ -208,7 +222,7 @@
                         </div>
                     <%}else{%>
                         <div class="col-sm-6 col-lg-4">
-                            <div class="card clean-card text-center"><a class="menu2" onclick="alert('주재료에 알레르기 성분이 있어서 주문이 안되요 ㅠㅠ')"><img style="-webkit-filter: grascale(100%); filter:gray; width: 250px; height:300px;" class="card-img-top w-100 d-block" src=<%= data.img %>></a>
+                            <div class="card clean-card text-center"><a class="menu2" onclick="alert('주재료에 알레르기 성분이 있어서 주문이 안되요 ㅠㅠ')"><img style="-webkit-filter: grascale(100%); filter:gray; width: 250px; height:300px;" class="card-img-top w-100 d-block" src='<%= data.img %>'></a>
                                 <span>
                                 <h4 style="padding: 10px; float: left;" ><%= data.name %> </h4>
                                 <strong style="float: right; font-size: 20px; ">가격: <%= data.price %> </strong>
@@ -228,10 +242,9 @@
         <h3>Order &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <small id="money"> 가격: 0</small></h3>
       
         <button style="margin-top: 50px;margin-right: 20px ; margin-left: 20px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#modal1" type="button" style="margin-right: 10px;margin-left: 10px;">취소</button>
-        <button style="margin-top: 50px;" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal1" type="button">주문</button>  
-        <div id="orders">
-        
-        
+        <button style="margin-top: 50px;" id="order" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal1" type="button">주문</button>  
+        <div id="orders" name="ssss">
+            
         </div>            
         </footer>
         <div class="modal fade" id="QRModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
