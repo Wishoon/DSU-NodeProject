@@ -9,7 +9,8 @@ var connection = mysql.createPool({
         port : 3306,
         user : 'root',
         password : '1111',
-        database:'allergy3'
+        database:'allergy3',
+        multipleStatements: true
 });
  
 // connection.connect(function(err) {
