@@ -73,10 +73,18 @@ router.get("/order2", function(req, res) {
 
 router.get("/orderEnd", function(req, res) {
     
+    var SQL = "SELECT max(seq) AS order_seq FROM orders"
     // var param = [req.session.]
-    res.render('user/orderEnd',
-        {message: "2323"}
-    );
+    pool.getConnection(function(err, conn){
+        conn.query(SQL, function(err, row, filed){
+            if(row){
+                console.log(row[0]);
+                res.render('user/orderEnd',
+                {data: row[0]}
+            ); 
+            }
+        })
+    })
 })
 
 
