@@ -108,12 +108,12 @@ router.post("/sign", function(req, res){
                             conn.query(allergySQL, param2, function(err, row){
                                 if(err) {console.log(err)}
                                 else{
-                                    conn.release();
                                     console.log(element + "의 알레르기 입력 성공하셨습니다.")
                                 }
                             })
                         })
                     }
+                    conn.release();
                 })
             }
         })
