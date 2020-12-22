@@ -85,7 +85,9 @@
                 type: "POST",                             
                 dataType: "json"                        
             })
+            location.href = "/kiosk/orderEnd";
         });
+
         $('.category').on("click", function() {
             var category_seq = ($(this).next().val());
             console.log(category_seq);
@@ -103,7 +105,7 @@
                     console.log(json)
                     if(json[i].allergy == 1){
                         var html = '<div class="col-sm-6 col-lg-4">'+
-                        '<div class="card clean-card text-center"><a class="menu2" onclick="alert(\'주재료에 알레르기 성분이 있어서 주문이 안되요ㅠㅠ\')"><img style="width: 250px; height:300px;" class="card-img-top w-100 d-block" src='+json[i].img+'></a>'+
+                        '<div class="card clean-card text-center"><a class="menu2" onclick="alert(\'주재료에 알레르기 성분이 있습니다.. 직원에게 문의해주세요~\')"><img style="width: 250px; height:300px;" class="card-img-top w-100 d-block" src='+json[i].img+'></a>'+
                             '<span>'+
                             '<h4 style="padding: 10px; float: left;" >'+json[i].name+' </h4>'+
                             '<strong style="float: right; font-size: 20px; ">가격: '+ json[i].price+' </strong>'+

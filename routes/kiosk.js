@@ -194,7 +194,7 @@ router.get("/category/:category_seq", function(req, res){
 })
 
 router.post("/order", function(req, res){
-    var OrderSQL = "INSERT orders(Allprice, user_seq) values (?, ?)"
+    var OrderSQL = "INSERT orders(Allprice, user_seq, yn) values (?, ?, 'n')"
     var OrderSelectSQL = "SELECT max(seq)as seq FROM ORDERS"
     var OrderInsertSQL = "INSERT ORDERS_INFO(ORDERS_seq,PRODUCT_seq, COUNT) value(?,?,?)"
 
@@ -255,6 +255,7 @@ router.post("/order", function(req, res){
                                     console.log(err);
                                 }else{
                                     console.log("주문 상세 정보를 입력 완료 했습니다")
+                                   
                                 }
                             })
                         }
@@ -263,7 +264,6 @@ router.post("/order", function(req, res){
             }
         })
     })
-    res.send("성공")
 })
 router.get("/qrcode/:seq", function(req, res){
     param = req.params.seq;
