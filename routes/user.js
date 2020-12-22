@@ -46,9 +46,11 @@ router.post('/login', function(req, res) {
                     sess.name = row[0].name
                     console.log(sess.id2)
                     console.log(sess.seq)
-                    // req.session.seq = loginSeq    
+                    // req.session.seq = loginSeq 
+                    conn.release();   
                     res.redirect('/user/main')
                 }else{
+                    conn.release();
                     res.redirect('/user/login')
                 }
 
@@ -106,6 +108,7 @@ router.post("/sign", function(req, res){
                             conn.query(allergySQL, param2, function(err, row){
                                 if(err) {console.log(err)}
                                 else{
+                                    conn.release();
                                     console.log(element + "의 알레르기 입력 성공하셨습니다.")
                                 }
                             })
@@ -146,8 +149,10 @@ router.get("/update",function(req,res){
     pool.getConnection(function(err, conn){
         conn.query(UserInsert, param, function(err, row){
             if(err){
+                conn.release();
                 console.log(err);
             }else{
+                conn.release();
                 console.log("정보 조회 성공하셨습니다.");
                 console.log(row);
             }
@@ -169,8 +174,10 @@ router.post("/update",function(req, res){
     pool.getConnection(function(err, conn){
         conn.query(deleteAllergy, param, function(err, row){
             if(err){
+                conn.release();
                 console.log(err);
             }else{
+                conn.release();
                 console.log("알레르기 정보 변경 성공하셨습니다.");
             }
         })
@@ -179,8 +186,10 @@ router.post("/update",function(req, res){
                 var param2 = [seq, e];
                 conn.query(insertAllergy, param2, function(err, row){
                     if(err){
+                        conn.release();
                         console.log(err);
                     }else{
+                        conn.release();
                         console.log("알레르기 수정 하셨습니다.");
                     }
                 })
@@ -202,6 +211,7 @@ var sql = 'SELECT * FROM USERS WHERE id = ?'
                 if(row)
                 console.log(row)
                 // res.send({success: "ddddd"})
+                conn.release();
          res.render('admin/products',console.log("hello"),
             {message: "hellos, ejs"}
     );

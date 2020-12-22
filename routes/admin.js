@@ -50,6 +50,7 @@ router.get("/product", function(req, res){
 
         var sql = `SELECT * FROM product WHERE COMPANY_seq = ?`
         conn.query(sql, param ,  function(err, row){
+          conn.release();
             res.render("product.ejs",{
               title: "Express", 
               sess:sess.seq, 
@@ -106,6 +107,7 @@ router.post("/productnew",upload.single('product_IMG'), function(req, res){
                                 if(err) {console.log(err)}
                                 else{
                                     console.log(element + "의 알레르기 입력 성공하셨습니다.")
+                                    conn.release();
                                 }
                             })
                         })
@@ -116,6 +118,7 @@ router.post("/productnew",upload.single('product_IMG'), function(req, res){
                               if(err) {console.log(err)}
                               else{
                                   console.log(element + "의 알레르기 입력 성공하셨습니다.")
+                                  conn.release();
                               }
                           })
                       })

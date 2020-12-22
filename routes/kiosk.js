@@ -47,6 +47,7 @@ router.get("/",function(req, res){
                             console.log(data);
                             
                             console.log("-----------------------------------------")
+                            conn.release();
                             res.render("user/kiosk", {
                                 data: data
                             });
@@ -56,6 +57,7 @@ router.get("/",function(req, res){
                             console.log(data);
                             
                             console.log("-----------------------------------------")
+                            conn.release();
                             res.render("user/kiosk", {
                                 data: data
                             });
@@ -81,7 +83,7 @@ router.get("/",function(req, res){
                             data: row
                         });
                     }
-                }
+                }conn.release();
             })
         })
     }
@@ -149,6 +151,7 @@ router.get("/category/:category_seq", function(req, res){
                             console.log(data);
                             
                             console.log("-----------------------------------------")
+                            conn.release();
                             return res.json(data);
                         }
                         else{
@@ -156,6 +159,7 @@ router.get("/category/:category_seq", function(req, res){
                             console.log(data);
                             
                             console.log("-----------------------------------------")
+                            conn.release();
                             return res.json(data);
                         }
                     })
@@ -171,6 +175,7 @@ router.get("/category/:category_seq", function(req, res){
                 }else{
                     console.log("상품 조회 성공 하셨습니다.");
                     if(row){
+                        conn.release();
                         return res.json(row);
                     }
                 }

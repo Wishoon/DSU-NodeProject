@@ -36,7 +36,7 @@ router.post("/login", function(req, res){
                     
                 }
 
-            }
+            }conn.release();
         })
     })
     res.redirect("/company/orderState");
@@ -52,6 +52,7 @@ router.get("/orderState", function(req, res){
     data2 = {};
     pool.getConnection(function(err, conn){
         conn.query(allergy, function(err, row, filed){
+            conn.release();
             res.render('company/orderState',
                 {data: row,
                    sess :1
@@ -72,7 +73,7 @@ router.get("/orderfinish/:seq", function(req, res){
         conn.query(OrderFinishSQL, param, function(err, row){
             if(err){
                 console.log(err);
-            }
+            }conn.release();
         })
     })
     res.redirect("/company/orderState");
@@ -120,7 +121,7 @@ router.post("/sign", function(req, res){
                     
                 }
 
-            }
+            }conn.release();
         })
     })
     res.send("성공")
@@ -156,7 +157,7 @@ router.get("/",function(req, res){
                 }else{
                     
                 }
-
+                conn.release();
             }
         })
         conn.query(orderSQL, param, function(err, row, filed){
@@ -170,7 +171,7 @@ router.get("/",function(req, res){
                 }else{
                     
                 }
-
+                conn.release();
             }
         })
     })
@@ -218,7 +219,7 @@ router.post("/product", function(req,res){
                                 })
                             })
                         }
-                    }
+                    }conn.release();
                 })
             }
         })
@@ -243,7 +244,7 @@ router.get("/product/update/:num",function(req,res){
                 }else{
                     
                 }
-            }
+            }conn.release();
         })
     })
     res.send("성공")
@@ -264,7 +265,7 @@ router.post("/product/update/:num", function(req,res){
                 console.log(err);
             }else{
                 console.log("알레르기 정보 변경 성공하셨습니다.");
-            }
+            }conn.release();
         })
         allergy.forEach(function(e){
             var param2 = [seq, e];
@@ -273,7 +274,7 @@ router.post("/product/update/:num", function(req,res){
                     console.log(err);
                 }else{
                     console.log("알레르기 수정 하셨습니다.");
-                }
+                }conn.release();
             })
         })
        
@@ -297,7 +298,7 @@ router.get("/product/delete/:num", function(req,res){
                 }else{
                     
                 }
-            }
+            }conn.release();
         })
     })
     res.send("성공")
