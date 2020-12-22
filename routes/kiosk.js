@@ -8,14 +8,17 @@ router.get("/",function(req, res){
     var SQL = "SELECT * FROM product WHERE category = ?"
     var allergy = 'select name, seq, category, img, price, detail from product a left join product_allergy c on a.seq = c.product_seq where seq NOT IN (select seq from product a join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?)) and category = ? group by seq';
 
-    var allergy2 = 'select seq, name,  category, img, price, detail, main_yn, PRODUCT_seq from product a left join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?) and category =? group by seq';
-    var param = [1];
+    var allergy2 = 'select seq, name,  category, img, price, detail, main_yn, PRODUCT_seq from product a left join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?) and category =? group by seq having main_yn = \'y\'';
+    
+    var allergy3 = 'select seq, name,  category, img, price, detail, main_yn, PRODUCT_seq from product a left join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?) and category =? group by seq having main_yn != \'y\'';    var param = [1];
     var data = [];
     var sess = req.session;
     console.log(sess.userSeq)
     if(sess.userSeq){
             
         var param1 = [sess.userSeq,1];
+        var param2 = [sess.userSeq,1];
+        var param3 = [sess.userSeq,1];
         console.log(param1)
         pool.getConnection(function(err, conn){
             conn.query(allergy, param1, function(err, row, filed){
@@ -26,20 +29,38 @@ router.get("/",function(req, res){
                         data.push(row[k])
                     }
                 }
-                conn.query(allergy2, param1, function(err, row2, filed){
+                conn.query(allergy2, param2, function(err, row2, filed){
                 if(row){
                     for(var i = 0 ; i< row2.length ; i++){
                         row2[i].allergy=1
                         data.push(row2[i])
                     }
+                    
                 }
-                console.log("-----------------------------------------")
-                console.log(data);
-                
-                console.log("-----------------------------------------")
-                res.render("user/kiosk", {
-                    data: data
-                });
+                    conn.query(allergy3, param3, function(err, row3, filed){
+                        if(row){
+                            for(var i = 0 ; i < row3.length ; i++){
+                                row3[i].allergy = 2
+                                data.push(row3[i])
+                            }
+                            console.log("-----------------------------------------")
+                            console.log(data);
+                            
+                            console.log("-----------------------------------------")
+                            res.render("user/kiosk", {
+                                data: data
+                            });
+                        }
+                        else{
+                            console.log("-----------------------------------------")
+                            console.log(data);
+                            
+                            console.log("-----------------------------------------")
+                            res.render("user/kiosk", {
+                                data: data
+                            });
+                        }
+                    })
                 })
             })
         })
@@ -52,8 +73,12 @@ router.get("/",function(req, res){
                 }else{
                     console.log("상품 조회 성공 하셨습니다.");
                     if(row){
+                        for(var i =0 ; i < row.length ; i++){
+                            row[i].allergy = 0;
+                        }
+                        console.log(data)
                         res.render("user/kiosk", {
-                            data: data
+                            data: row
                         });
                     }
                 }
@@ -84,7 +109,9 @@ router.get("/category/:category_seq", function(req, res){
     var SQL = "SELECT * FROM product WHERE category = ?"
     var allergy = 'select name, seq, category, img, price, detail from product a left join product_allergy c on a.seq = c.product_seq where seq NOT IN (select seq from product a join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?)) and category = ? group by seq';
 
-    var allergy2 = 'select seq, name,  category, img, price, detail, main_yn, PRODUCT_seq from product a left join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?) and category =? group by seq';
+    var allergy2 = 'select seq, name,  category, img, price, detail, main_yn, PRODUCT_seq from product a left join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?) and category =? group by seq having main_yn = \'y\'';
+    
+    var allergy3 = 'select seq, name,  category, img, price, detail, main_yn, PRODUCT_seq from product a left join product_allergy c on a.seq = c.product_seq where c.allergy_seq  IN (select allergy_seq from user_allergy where user_seq = ?) and category =? group by seq having main_yn != \'y\'';
     var param = [req.params.category_seq];
     var data = [];
     var sess = req.session;
@@ -92,6 +119,8 @@ router.get("/category/:category_seq", function(req, res){
     if(sess.userSeq){
             
         var param1 = [sess.userSeq,req.params.category_seq];
+        var param2 = [sess.userSeq,req.params.category_seq];
+        var param3 = [sess.userSeq,req.params.category_seq];
         console.log(param1)
         pool.getConnection(function(err, conn){
             conn.query(allergy, param1, function(err, row, filed){
@@ -102,18 +131,34 @@ router.get("/category/:category_seq", function(req, res){
                         data.push(row[k])
                     }
                 }
-                conn.query(allergy2, param1, function(err, row2, filed){
+                conn.query(allergy2, param2, function(err, row2, filed){
                 if(row){
                     for(var i = 0 ; i< row2.length ; i++){
                         row2[i].allergy=1
                         data.push(row2[i])
                     }
+                    
                 }
-                console.log("-----------------------------------------")
-                console.log(data);
-                
-                console.log("-----------------------------------------")
-                return res.json(data)
+                    conn.query(allergy3, param3, function(err, row3, filed){
+                        if(row){
+                            for(var i = 0 ; i < row3.length ; i++){
+                                row3[i].allergy = 2
+                                data.push(row3[i])
+                            }
+                            console.log("-----------------------------------------")
+                            console.log(data);
+                            
+                            console.log("-----------------------------------------")
+                            return res.json(data);
+                        }
+                        else{
+                            console.log("-----------------------------------------")
+                            console.log(data);
+                            
+                            console.log("-----------------------------------------")
+                            return res.json(data);
+                        }
+                    })
                 })
             })
         })
@@ -126,12 +171,13 @@ router.get("/category/:category_seq", function(req, res){
                 }else{
                     console.log("상품 조회 성공 하셨습니다.");
                     if(row){
-                        return res.json(row)
+                        return res.json(row);
                     }
                 }
             })
         })
     }
+   
 })
 
 router.post("/order", function(req, res){
