@@ -59,6 +59,10 @@ $(document).ready(function(){
 				  $("#money").text("가격: "+ money)
 				
 			})
+			$("#cencel").click(function(){
+				$("#orders").empty();
+				$("#money").text("가격: "+ 0);
+			})
 			$(".menu3").click(function(){
 				var boolean = confirm("부재료에 알레르기 성분이 있습니다 빼고 주문하시겠습니까?")
 				if(boolean == true){

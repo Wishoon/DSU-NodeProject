@@ -79,12 +79,12 @@
             // alert(json_str.length)
             // var json_str1 = JSON.stringify(json_str)
             // console.log(json_str1);
-            // $.ajax({
-            //     url: "/kiosk/order/", 
-            //     data: json_str,
-            //     type: "POST",                             
-            //     dataType: "json"                        
-            // })
+            $.ajax({
+                url: "/kiosk/order/", 
+                data: json_str,
+                type: "POST",                             
+                dataType: "json"                        
+            })
         });
         $('.category').on("click", function() {
             var category_seq = ($(this).next().val());
@@ -308,7 +308,7 @@
     <footer class="page-footer dark" style="clear: both;height: 15.1%;width: 100%;color: rgb(0,0,0);background: rgb(242,242,242);padding-top: 5px;">
         <h3>Order &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <small id="money"> 가격: 0</small></h3>
       
-        <button style="margin-top: 50px;margin-right: 20px ; margin-left: 20px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#modal1" type="button" style="margin-right: 10px;margin-left: 10px;">취소</button>
+        <button id="cencel"style="margin-top: 50px;margin-right: 20px ; margin-left: 20px;" class="btn btn-danger float-right" data-toggle="modal" data-target="#modal1" type="button" style="margin-right: 10px;margin-left: 10px;">취소</button>
         <button style="margin-top: 50px;" id="order" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal1" type="button">주문</button>  
         <div id="orders" name="ssss">
             
